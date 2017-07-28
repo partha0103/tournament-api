@@ -17,29 +17,29 @@ var connection = mysql.createConnection(dbconfig.connection);
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(morgan('dev'));
-app.use(expressJWT({secret: 'Partha Sarathi Nanda'}).unless({path: ['/login']}));
+app.use(expressJWT({secret: 'Partha Sarathi Nanda'}).unless({path: ['/login', 'signup']}));
 
 app.post('/login', (req, res)=>{
 
     let email = req.body.email;
     let password = req.body.password;
     if(!email){
-        res.status(400).send('email required');
+        res.status(400).json('email required');
     }
     if(!password){
-        res.status(400).send("password required");
+        res.status(400).json("password required");
     }
 
-    var stmt = "SELECT * from user where email = ? "
+    var stmt = "SELECT * from user where email = ? ";
     connection.query(stmt, [email], (error, results)=>{
         if(error){
             throw error;
         }
         if(!results.length){
-            res.status(401).send("No user registered with this email");
+            res.status(401).json("No user registered with this email");
         }
         else if(password !== results[0].password){
-            res.status(400).send("Invalid password");
+            res.status(400).json("Invalid password");
         }
         else{
             let token = jwt.sign({username: req.body.email,id: results[0].id},'Partha Sarathi Nanda')
@@ -49,12 +49,28 @@ app.post('/login', (req, res)=>{
 
 })
 
-app.get('/', isAuthenticated, (req, res)=>{
-    res.json("Hello");
+app.post('/signup',(req, res)=>{
+    var stmt = "SELECT * from user where email = ? ";
+     connection.query(stmt, [email], (error, results)=>{
+        if(error){
+            throw error;
+        }
+        if(results.length){
+            res.json("User already exists");
+        }
+        else{
+            var email = req.body.email;
+            var password = req.body.password;
+            var username = req.body.password;
+            var insertQuery = "INSERT INTO user ( username,password,email) values (?,?,?)";
+            connection.query(insertQuery,[username, password, email], (error, result)=>{
+                res.status(200).json("Successfully registered");
+            })
+        }
+     })
 })
 
 function isAuthenticated(req, res, next){
-    console.log(req.get('Authorization'));
     let token = req.body.token || req.query.token || req.headers['x-access-token'];
     if(token){
         jwt.verify(token, 'Partha Sarathi Nanda', (error, decode)=>{
