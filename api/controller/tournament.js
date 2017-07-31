@@ -26,3 +26,10 @@ exports.registerPlayer = (req, res) => {
         res.status(200).json(result);
     })
 }
+
+exports.getAllPlayers = (req, res) => {
+    let user_id = req.user.id;
+    tournament.getAllPlayers(user_id, (players) =>{
+        res.status(200).json(players);
+    })
+}

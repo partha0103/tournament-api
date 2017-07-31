@@ -11,6 +11,7 @@ const passport = require('passport');
 const JwtStrategy = require('passport-jwt').Strategy;
 const ExtractJwt = require('passport-jwt').ExtractJwt;
 const jwt = require('jsonwebtoken');
+let cors = require('cors');
 
 //Router requires
 const authRoute = require('./api/routes/tourroute');
@@ -21,6 +22,8 @@ const connection = mysql.createConnection(dbconfig.connection);
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(morgan('dev'));
+app.use(cors());
+app.options('*', cors());
 
 let jwtOpts = {};
 jwtOpts.jwtFromRequest = ExtractJwt.fromAuthHeader();
