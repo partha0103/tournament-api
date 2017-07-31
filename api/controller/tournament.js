@@ -44,9 +44,31 @@ exports.updateTournament = (req, res) => {
     if(req.body.add_players){
         add_players = req.body.add_players;
     }
+
     if(req.body.remove_players){
         remove_players = req.body.add_players;
     }
+
+    if(tour_name === ""){
+        res.status(400).json({
+            "success": false,
+            "message": "Tournament name can't be empty"
+        });
+    }
+    else if(tour_status === ""){
+        res.status(400).json({
+            "success": false,
+            "message": "Tournament status can't be empty"
+        });
+    }
+
+    else if(tour_id < 0 || tour_id === undefined){
+        res.status(400).json({
+            "success": false,
+            "message": "Tournament id can't be undefined"
+        });
+    }
+
     tournament.updateTournament(user_id, tour_name, tour_status, tour_id, add_players, remove_players, (result) => {
         res.status(200).json(result);
     })
@@ -54,7 +76,8 @@ exports.updateTournament = (req, res) => {
 
 exports.getTournament = (req, res) => {
     let id = req.params.id;
-    tournament.getTournamentDetails(id, (response) => {
+    let details = req.query.details;
+    tournament.getTournamentDetails(id, details,(response) => {
         res.status(200).json(response);
     })
 }
