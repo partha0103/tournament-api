@@ -33,3 +33,21 @@ exports.getAllPlayers = (req, res) => {
         res.status(200).json(players);
     })
 }
+
+exports.updateTournament = (req, res) => {
+    let user_id = req.user.id;
+    let tour_name = req.body.tour_name;
+    let tour_status = req.body.tour_status;
+    let tour_id = req.body.tour_id;
+    let add_players = [];
+    let remove_players = [];
+    if(req.body.add_players){
+        add_players = req.body.add_players;
+    }
+    if(req.body.remove_players){
+        remove_players = req.body.add_players;
+    }
+    tournament.updateTournament(user_id, tour_name, tour_status, tour_id, add_players, remove_players, (result) => {
+        res.status(200).json(result);
+    })
+}
