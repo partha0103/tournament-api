@@ -51,3 +51,10 @@ exports.updateTournament = (req, res) => {
         res.status(200).json(result);
     })
 }
+
+exports.getTournament = (req, res) => {
+    let id = req.params.id;
+    tournament.getTournamentDetails(id, (response) => {
+        res.status(200).json(response);
+    })
+}
