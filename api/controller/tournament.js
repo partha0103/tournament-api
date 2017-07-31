@@ -68,10 +68,11 @@ exports.updateTournament = (req, res) => {
             "message": "Tournament id can't be undefined"
         });
     }
-
-    tournament.updateTournament(user_id, tour_name, tour_status, tour_id, add_players, remove_players, (result) => {
-        res.status(200).json(result);
-    })
+    else{
+        tournament.updateTournament(user_id, tour_name, tour_status, tour_id, add_players, remove_players, (result) => {
+            res.status(200).json(result);
+        })
+    }
 }
 
 exports.getTournament = (req, res) => {
