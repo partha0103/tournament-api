@@ -16,7 +16,7 @@ const jwt = require('jsonwebtoken');
 const authRoute = require('./api/routes/tourroute');
 const player_route = require('./api/routes/playerroute')
 const dbconfig = require('./config/dbconfig');
-const tour_route = require('./api/routes/route');
+const tour_route = require('./api/routes/tourroute');
 const connection = mysql.createConnection(dbconfig.connection);
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));

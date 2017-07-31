@@ -1,6 +1,6 @@
 const tournament = require('./../../lib/tournament.js');
 
-exports.createTournament = (req, res)=>{
+exports.createTournament = (req, res) => {
     let user_id = req.user.id;
     let name = req.body.name;
 
@@ -18,3 +18,11 @@ exports.createTournament = (req, res)=>{
     }
 }
 
+exports.registerPlayer = (req, res) => {
+    let user_id = req.user.id;
+    let tournament_id = req.body.tour_id;
+    let name = req.body.name;
+    tournament.registerPlayer(user_id, tournament_id, name, function(result){
+        res.status(200).json(result);
+    })
+}
