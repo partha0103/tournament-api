@@ -13,8 +13,10 @@ const ExtractJwt = require('passport-jwt').ExtractJwt;
 const jwt = require('jsonwebtoken');
 
 //Router requires
-const authRoute = require('./api/routes/route');
+const authRoute = require('./api/routes/tourroute');
+const player_route = require('./api/routes/playerroute')
 const dbconfig = require('./config/dbconfig');
+const tour_route = require('./api/routes/route');
 const connection = mysql.createConnection(dbconfig.connection);
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -49,6 +51,7 @@ let strategy = new JwtStrategy(jwtOpts, (jwt_payload, cb)=>{
 passport.use(strategy);
 app.use(passport.initialize());
 
+
 app.post('/login', (req, res)=>{
 
     let email = req.body.email;
@@ -56,7 +59,7 @@ app.post('/login', (req, res)=>{
     if(!email){
         res.status(400).json('email required');
     }
-    if(!password){
+    else if(!password){
         res.status(400).json("password required");
     }
 
@@ -105,10 +108,12 @@ app.post('/signup',(req, res)=>{
 })
 
 app.get('/', passport.authenticate('jwt', {session: false}), (req, res) => {
-    console.log(req.user);
     res.json("hello");
 })
 
+app.use('/tournament',passport.authenticate('jwt', {session: false}), tour_route);
+
+app.use('/player',passport.authenticate('jwt', {session: false}), player_route);
 app.listen(port, ()=>{
     console.log("local host is running");
 })
