@@ -46,7 +46,7 @@ exports.updateTournament = (req, res) => {
     }
 
     if(req.body.remove_players){
-        remove_players = req.body.add_players;
+        remove_players = req.body.remove_players;
     }
 
     if(tour_name === ""){
