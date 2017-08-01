@@ -40,6 +40,15 @@ describe("Test for player route", () => {
         })
     })
     it("Test getplayers route", (done) => {
-        done();
+        request.get('http://localhost:8000/player',{
+                headers:{
+                    "Authorization": "JWT " + token
+                }
+            },
+            (error, response, body) => {
+                console.log(response);
+                expect(response.statusCode).toBe(200);
+                done();
+            })
     })
 } )
