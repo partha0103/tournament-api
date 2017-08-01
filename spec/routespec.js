@@ -1,5 +1,5 @@
 let request = require('request');
-describe("Login route check", () =>{
+xdescribe("Login route check", () =>{
     it("Test for login credentials", (done) => {
         let data = {
             email: "psnanda.bapu@gmail.com",
@@ -22,7 +22,7 @@ describe("Login route check", () =>{
 
 describe("Test for player route", () => {
     let token = "";
-    beforeEach(() => {
+    beforeEach((done) => {
         let data = {
             email: "psnanda.bapu@gmail.com",
             password: "308ab220"
@@ -35,11 +35,11 @@ describe("Test for player route", () => {
             url: url
         }
         request(options, (error, response, body) => {
-            console.log(body);
+            token = body.token;
+            done();
         })
     })
     it("Test getplayers route", (done) => {
-        console.log(token);
         done();
     })
 } )
