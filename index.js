@@ -72,10 +72,10 @@ app.post('/login', (req, res)=>{
             throw error;
         }
         if(!results.length){
-            res.status(401).json("No user registered with this email");
+            res.status(401).json({success: false,message:"No user registered with this email"});
         }
         else if(password !== results[0].password){
-            res.status(400).json("Invalid password");
+            res.status(400).json({success: false,message: "Invalid password"});
         }
         else{
             let payload = {
@@ -83,7 +83,7 @@ app.post('/login', (req, res)=>{
                 id: results[0].id,
             };
             let token = jwt.sign(payload, jwtOpts.secretOrKey);
-            res.status(200).json({message:"Success",token: token});
+            res.status(200).json({success: true,message:"Success",token: token});
         }
     })
 
