@@ -7,17 +7,28 @@ exports.createTournament = (req, res) => {
     if(name.length > 0 && name.length<=50){
         tournament.create_tournament(user_id,name, function(result){
             res.json({
+                "success": true,
                 "message": "Successfully created Tournament"
             });
         })
     }
     else{
         res.json({
+            "success": false,
             "message": "Tournament name should be between 1 to 50 charecters"
         })
     }
 }
 
+exports.getTournamentList = (req, res) => {
+    let user_id = req.user.id;
+    tournament.getTournaments(user_id, (tournaments) => {
+        res.status(200).json({
+            "success": true,
+            "tournaments": tournaments
+        })
+    })
+}
 exports.registerPlayer = (req, res) => {
     let user_id = req.user.id;
     let tournament_id = req.body.tour_id;

@@ -110,7 +110,8 @@ app.post('/signup',(req, res)=>{
      })
 })
 
-app.get('/', passport.authenticate('jwt', {session: false}), (req, res) => {
+app.get('/',(req, res) => {
+    console.log(req);
     res.json("hello");
 })
 
