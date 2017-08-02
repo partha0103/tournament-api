@@ -91,7 +91,7 @@ app.post('/login', (req, res)=>{
 
 app.post('/signup',(req, res)=>{
     var stmt = "SELECT * from user where email = ? ";
-     connection.query(stmt, [email], (error, results)=>{
+     connection.query(stmt, [req.body.email], (error, results)=>{
         if(error){
             throw error;
         }
@@ -101,10 +101,10 @@ app.post('/signup',(req, res)=>{
         else{
             var email = req.body.email;
             var password = req.body.password;
-            var username = req.body.password;
+            var username = req.body.username;
             var insertQuery = "INSERT INTO user ( username,password,email) values (?,?,?)";
             connection.query(insertQuery,[username, password, email], (error, result)=>{
-                res.status(200).json("Successfully registered");
+                res.status(200).json({"success": true,"message":"Successfully registered"});
             })
         }
      })

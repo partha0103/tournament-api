@@ -7,7 +7,8 @@ exports.createTournament = (req, res) => {
     if(name.length > 0 && name.length<=50){
         tournament.create_tournament(user_id,name, function(result){
             res.json({
-                "message": "Successfully created Tournament"
+                "message": "Successfully created Tournament",
+                "success": true
             });
         })
     }
