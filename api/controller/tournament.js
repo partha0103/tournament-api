@@ -89,6 +89,12 @@ exports.updateTournament = (req, res) => {
 exports.getTournament = (req, res) => {
     let id = req.params.id;
     let details = req.query.details;
+    if(details){
+        details = 'true'
+    }
+    else{
+        details = 'false';
+    }
     tournament.getTournamentDetails(id, details,(response) => {
         res.status(200).json(response);
     })
